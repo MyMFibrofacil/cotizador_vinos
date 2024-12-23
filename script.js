@@ -320,4 +320,3 @@ function togglePestana(index) {
     const contenido = document.getElementById(`contenido-${index}`);
     contenido.style.display = contenido.style.display === 'none' ? 'block' : 'none';
 }
-
