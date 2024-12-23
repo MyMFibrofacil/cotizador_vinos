@@ -308,6 +308,14 @@ function generarPestanas(cantidad) {
     botonCalcular.onclick = () => calcularPrecioTotal(cantidad);
     contenedorPestanas.appendChild(botonCalcular);
 
+    // Botón para descargar PDF
+    const botonPDF = document.createElement('button');
+    botonPDF.textContent = 'Descargar Resumen en PDF';
+    botonPDF.id = 'descargarPDF';
+    botonPDF.style.marginTop = '10px';
+    botonPDF.style.display = 'none'; // Oculto inicialmente
+    contenedorPestanas.appendChild(botonPDF);
+
     // Contenedor para mostrar el resultado final
     const resultadoFinal = document.createElement('div');
     resultadoFinal.id = 'resultadoFinal';
