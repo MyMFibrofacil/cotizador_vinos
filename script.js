@@ -173,6 +173,7 @@ function calcularPrecioTotal(cantidadPestanas) {
             <td style="text-align: right;">$${precioCajaTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
         </tr>
     `;
+    
     }
 
     // Calcular precios de los logos agrupados
@@ -209,12 +210,13 @@ function calcularPrecioTotal(cantidadPestanas) {
         detallePrecios += `
         <tr>
             <td style="text-align: center;">Logos ${medida}</td>
-            <td style="text-align: center;">--</td>
+            <td style="text-align: center;">N/A</td>
             <td style="text-align: center;">${cantidad}</td>
             <td style="text-align: center;">$${costoLogoUnitario.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
             <td style="text-align: right;">$${totalLogoMedida.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
         </tr>
     `;
+    
     
     }
 
@@ -242,6 +244,7 @@ function calcularPrecioTotal(cantidadPestanas) {
             </tr>
         </tfoot>
     </table>`;
+
 
 
     // Llamar a la función para generar sugerencias
