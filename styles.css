@@ -64,7 +64,7 @@ th {
 }
 
 tfoot td {
-    font-size: 10px;
+    font-size: 16px;
     font-weight: bold;
     border-top: 2px solid #000; /* Línea superior gruesa */
     text-align: right; /* Alinear texto a la derecha */
@@ -73,7 +73,7 @@ tfoot td {
 
 /* Resaltar filas alternas */
 tbody tr:nth-child(even) {
-    font-size: 10px; /* Ajusta el tamaño según lo que desees */
+    font-size: 12px; /* Ajusta el tamaño según lo que desees */
     background-color: #f9f9f9;
 }
 
@@ -81,4 +81,30 @@ tbody tr:nth-child(even) {
 tbody tr:hover {
     background-color: #eaeaea;
     transition: background-color 0.3s ease;
+}
+
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.styled-table th, .styled-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.styled-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.styled-table tfoot td {
+    font-size: 16px;
+    font-weight: bold;
+    border-top: 2px solid #000;
+    text-align: right;
+    padding-top: 10px;
 }

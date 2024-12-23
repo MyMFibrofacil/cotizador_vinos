@@ -226,7 +226,7 @@ function calcularPrecioTotal(cantidadPestanas) {
 
     // Mostrar el desglose de precios
     document.getElementById('resultadoFinal').innerHTML = `
-    <table>
+    <table class="styled-table">
         <thead>
             <tr>
                 <th>Concepto</th>
@@ -246,9 +246,6 @@ function calcularPrecioTotal(cantidadPestanas) {
             </tr>
         </tfoot>
     </table>`;
-
-
-
 
     // Llamar a la función para generar sugerencias
     generarSugerenciasPrecios(logosAgrupados);
