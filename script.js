@@ -242,7 +242,7 @@ function calcularPrecioTotal(cantidadPestanas) {
         <tfoot>
             <tr>
                 <td colspan="4" style="text-align: right; padding-top: 10px; font-size: 16px; font-weight: bold;">Total</td>
-                <td style="text-align: right; padding-top: 10px; font-size: 16px; font-weight: bold;">$${precioTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })} +IVA</td>
+                <td style="text-align: right; padding-top: 10px; font-size: 20px; font-weight: bold;">$${precioTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })} +IVA</td>
             </tr>
         </tfoot>
     </table>`;
