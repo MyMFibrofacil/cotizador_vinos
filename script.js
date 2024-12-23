@@ -172,7 +172,8 @@ function calcularPrecioTotal(cantidadPestanas) {
             <td style="text-align: center;">$${precioCajaUnitario.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
             <td style="text-align: right;">$${precioCajaTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
         </tr>
-    `;
+        `;
+        
     
     }
 
