@@ -18,7 +18,7 @@ const opcionesCajas = {
 };
 
 // Define el precio base por mm² del logo
-const Precio_Logo = 0.3540
+const Precio_Logo = 0.3540 * 1.1
 
 // Los precios de las cajas se definen en la linea de codigo 131, buscar Ctrl + F = precioCajaUnitario y lo encontras para cambiar
 
@@ -165,12 +165,13 @@ function calcularPrecioTotal(cantidadPestanas) {
 
         // Agregar detalle de precios para cajas
         detallePrecios += `
-            <tr>
-                <td style="text-align: center;">Caja Medida ${i}</td>
-                <td style="text-align: center;">$${precioCajaUnitario.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
-                <td style="text-align: right;">$${precioCajaTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
-            </tr>
-        `;
+    <tr>
+        <td style="text-align: center;">Caja ${tipoCaja.charAt(0).toUpperCase() + tipoCaja.slice(1).replace('_', ' ')}</td>
+        <td style="text-align: center;">$${precioCajaUnitario.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
+        <td style="text-align: right;">$${precioCajaTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
+    </tr>
+`;
+
     }
 
     // Calcular precios de los logos agrupados
