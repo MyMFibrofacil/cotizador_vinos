@@ -64,7 +64,7 @@ th {
 }
 
 tfoot td {
-    font-size: 12px;
+    font-size: 16px;
     font-weight: bold;
     border-top: 2px solid #000; /* Línea superior gruesa */
     text-align: right; /* Alinear texto a la derecha */
@@ -73,6 +73,7 @@ tfoot td {
 
 /* Resaltar filas alternas */
 tbody tr:nth-child(even) {
+    font-size: 12px; /* Ajusta el tamaño según lo que desees */
     background-color: #f9f9f9;
 }
 
