@@ -167,6 +167,7 @@ function calcularPrecioTotal(cantidadPestanas) {
         detallePrecios += `
         <tr>
             <td style="text-align: center;">Caja ${tipoCaja.charAt(0).toUpperCase() + tipoCaja.slice(1).replace('_', ' ')}</td>
+            <td style="text-align: center;">${tipoMaterial.charAt(0).toUpperCase() + tipoMaterial.slice(1).replace('_', ' ')}</td>
             <td style="text-align: center;">${cantidad}</td>
             <td style="text-align: center;">$${precioCajaUnitario.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
             <td style="text-align: right;">$${precioCajaTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
@@ -208,11 +209,13 @@ function calcularPrecioTotal(cantidadPestanas) {
         detallePrecios += `
         <tr>
             <td style="text-align: center;">Logos ${medida}</td>
+            <td style="text-align: center;">--</td>
             <td style="text-align: center;">${cantidad}</td>
             <td style="text-align: center;">$${costoLogoUnitario.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
             <td style="text-align: right;">$${totalLogoMedida.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
         </tr>
     `;
+    
     
     }
 
@@ -224,6 +227,7 @@ function calcularPrecioTotal(cantidadPestanas) {
         <thead>
             <tr style="border-bottom: 2px solid #000; font-weight: bold; text-align: center;">
                 <th style="width: 30%; text-align: center;">Concepto</th>
+                <th style="width: 20%; text-align: center;">Tipo de Tapa</th>
                 <th style="width: 15%; text-align: center;">Cantidad</th>
                 <th style="width: 25%; text-align: center;">Unitario</th>
                 <th style="width: 30%; text-align: right;">Total</th>
