@@ -223,6 +223,8 @@ function calcularPrecioTotal(cantidadPestanas) {
 
     const precioTotal = totalCajas + totalLogos;
 
+    document.getElementById('exportarPDF').style.display = 'block';
+
     // Mostrar el desglose de precios
     document.getElementById('resultadoFinal').innerHTML = `
     <table>
@@ -303,22 +305,66 @@ function generarPestanas(cantidad) {
         contenedorPestanas.appendChild(pestana);
     }
 
-    // Agregar botón de calcular precio al final
+    // Botón para calcular precio
     const botonCalcular = document.createElement('button');
     botonCalcular.textContent = 'Calcular Precio Total';
     botonCalcular.style.marginTop = '20px';
     botonCalcular.onclick = () => calcularPrecioTotal(cantidad);
     contenedorPestanas.appendChild(botonCalcular);
 
+    // Botón para exportar PDF
+    const botonExportarPDF = document.createElement('button');
+    botonExportarPDF.textContent = 'Exportar a PDF';
+    botonExportarPDF.id = 'exportarPDF';
+    botonExportarPDF.style.marginTop = '10px';
+    botonExportarPDF.style.display = 'none'; // Oculto inicialmente
+    botonExportarPDF.onclick = exportarPDF;
+    contenedorPestanas.appendChild(botonExportarPDF);
+
     // Contenedor para mostrar el resultado final
     const resultadoFinal = document.createElement('div');
     resultadoFinal.id = 'resultadoFinal';
     resultadoFinal.className = 'result';
     contenedorPestanas.appendChild(resultadoFinal);
-}
-
+    }
 // Función para alternar la visibilidad de las pestañas
 function togglePestana(index) {
     const contenido = document.getElementById(`contenido-${index}`);
     contenido.style.display = contenido.style.display === 'none' ? 'block' : 'none';
+}
+
+function exportarPDF() {
+    const doc = new jspdf.jsPDF();
+
+    // Agregar título
+    doc.text('Resumen del Cotizador de Cajas de Vino', 10, 10);
+
+    // Obtener datos de la tabla
+    const tabla = document.querySelector('#resultadoFinal table');
+    const data = [];
+    const headers = [];
+
+    // Extraer encabezados
+    tabla.querySelectorAll('thead th').forEach(th => {
+        headers.push(th.innerText);
+    });
+
+    // Extraer datos de las filas
+    tabla.querySelectorAll('tbody tr').forEach(tr => {
+        const fila = [];
+        tr.querySelectorAll('td').forEach(td => {
+            fila.push(td.innerText);
+        });
+        data.push(fila);
+    });
+
+    // Agregar tabla al PDF
+    doc.autoTable({
+        head: [headers],
+        body: data,
+        startY: 20
+    });
+
+    // Descargar el PDF
+    doc.save('Resumen_Cotizacion.pdf');
 }
