@@ -71,6 +71,14 @@ tfoot td {
     padding-top: 10px;
 }
 
+/* Estilo especial para el monto total en el pie de tabla */
+tfoot td.total-cell {
+    font-size: 20px; /* Tamaño más grande para el monto total */
+    font-weight: bold;
+    color: #333;
+    text-align: right; /* Alinear a la derecha */
+}
+
 /* Resaltar filas alternas */
 tbody tr:nth-child(even) {
     font-size: 12px; /* Ajusta el tamaño según lo que desees */
@@ -83,7 +91,7 @@ tbody tr:hover {
     transition: background-color 0.3s ease;
 }
 
-
+/* Estilo para tablas con clase .styled-table */
 .styled-table {
     width: 100%;
     border-collapse: collapse;
@@ -107,4 +115,11 @@ tbody tr:hover {
     border-top: 2px solid #000;
     text-align: right;
     padding-top: 10px;
+}
+
+/* Aplica el estilo para celdas de total dentro de .styled-table */
+.styled-table tfoot td.total-cell {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
 }
