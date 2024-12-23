@@ -165,12 +165,12 @@ function calcularPrecioTotal(cantidadPestanas) {
 
         // Agregar detalle de precios para cajas
         detallePrecios += `
-    <tr>
-        <td style="text-align: center;">Caja ${tipoCaja.charAt(0).toUpperCase() + tipoCaja.slice(1).replace('_', ' ')}</td>
-        <td style="text-align: center;">$${precioCajaUnitario.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
-        <td style="text-align: right;">$${precioCajaTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
-    </tr>
-`;
+        <tr>
+            <td style="text-align: center;">Caja ${tipoCaja.charAt(0).toUpperCase() + tipoCaja.slice(1).replace('_', ' ')}</td>
+            <td style="text-align: center;">$${precioCajaUnitario.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
+            <td style="text-align: right;">$${precioCajaTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
+        </tr>
+    `;
 
     }
 
