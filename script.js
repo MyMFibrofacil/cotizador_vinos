@@ -220,26 +220,26 @@ function calcularPrecioTotal(cantidadPestanas) {
 
     // Mostrar el desglose de precios
     document.getElementById('resultadoFinal').innerHTML = `
-        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-            <thead>
-                <tr style="border-bottom: 2px solid #000; font-weight: bold; text-align: center;">
-                    <th style="width: 40%; text-align: center;">Concepto</th>
-                    <th style="width: 15%; text-align: center;">Cantidad</th>
-                    <th style="width: 30%; text-align: center;">Unitario</th>
-                    <th style="width: 30%; text-align: right;">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${detallePrecios}
-            </tbody>
-            <tfoot>
-                <tr style="font-size: 18px; font-weight: bold; border-top: 2px solid #000;">
-                    <td colspan="2" style="text-align: right; padding-top: 10px;">Total</td>
-                    <td style="text-align: right; padding-top: 10px;">$${precioTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })} +IVA</td>
-                </tr>
-            </tfoot>
-        </table>
-    `;
+    <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+        <thead>
+            <tr style="border-bottom: 2px solid #000; font-weight: bold; text-align: center;">
+                <th style="width: 30%; text-align: center;">Concepto</th>
+                <th style="width: 15%; text-align: center;">Cantidad</th>
+                <th style="width: 25%; text-align: center;">Unitario</th>
+                <th style="width: 30%; text-align: right;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${detallePrecios}
+        </tbody>
+        <tfoot>
+            <tr style="font-size: 18px; font-weight: bold; border-top: 2px solid #000;">
+                <td colspan="3" style="text-align: right; padding-top: 10px;">Total</td>
+                <td style="text-align: right; padding-top: 10px;">$${precioTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })} +IVA</td>
+            </tr>
+        </tfoot>
+    </table>
+`;
 
     // Llamar a la función para generar sugerencias
     generarSugerenciasPrecios(logosAgrupados);
