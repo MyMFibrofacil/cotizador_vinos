@@ -217,7 +217,8 @@ function calcularPrecioTotal(cantidadPestanas) {
             <td style="text-align: right;">$${totalLogoMedida.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
         </tr>
     `;
-        
+    
+    
     }
 
     const precioTotal = totalCajas + totalLogos;
