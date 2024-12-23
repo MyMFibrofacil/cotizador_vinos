@@ -247,6 +247,7 @@ function calcularPrecioTotal(cantidadPestanas) {
         </tfoot>
     </table>`;
     
+    
     // Llamar a la función para generar sugerencias
     generarSugerenciasPrecios(logosAgrupados);
 }

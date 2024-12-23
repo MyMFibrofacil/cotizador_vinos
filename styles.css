@@ -63,17 +63,16 @@ th {
     text-transform: uppercase;
 }
 
-tfoot td {
-    font-size: 16px;
+tfoot td.total-cell {
+    font-size: 25px !important; /* Aumentar prioridad */
     font-weight: bold;
-    border-top: 2px solid #000; /* Línea superior gruesa */
-    text-align: right; /* Alinear texto a la derecha */
-    padding-top: 10px;
+    color: #333;
+    text-align: right; /* Alinear a la derecha */
 }
 
 /* Estilo especial para el monto total en el pie de tabla */
 tfoot td.total-cell {
-    font-size: 20px; /* Tamaño más grande para el monto total */
+    font-size: 25px; /* Tamaño más grande para el monto total */
     font-weight: bold;
     color: #333;
     text-align: right; /* Alinear a la derecha */
