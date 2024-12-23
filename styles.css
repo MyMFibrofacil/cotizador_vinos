@@ -1,3 +1,4 @@
+/* Estilos básicos para la tabla */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -5,21 +6,36 @@ table {
     font-size: 14px;
 }
 
+/* Estilo para las celdas de la tabla */
 th, td {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: center;
 }
 
+/* Estilo para los encabezados de la tabla */
 th {
     background-color: #f2f2f2;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
+/* Estilo para el pie de la tabla */
+tfoot td {
+    font-size: 16px;
+    font-weight: bold;
+    border-top: 2px solid #000;
+    text-align: right;
+    padding-top: 10px;
+}
+
+/* Resaltar filas alternas */
 tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
+/* Resaltar filas al pasar el mouse */
 tbody tr:hover {
     background-color: #eaeaea;
+    transition: background-color 0.3s ease;
 }
