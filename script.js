@@ -217,8 +217,7 @@ function calcularPrecioTotal(cantidadPestanas) {
             <td style="text-align: right;">$${totalLogoMedida.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
         </tr>
     `;
-    
-    
+        
     }
 
     const precioTotal = totalCajas + totalLogos;
@@ -321,3 +320,39 @@ function togglePestana(index) {
     const contenido = document.getElementById(`contenido-${index}`);
     contenido.style.display = contenido.style.display === 'none' ? 'block' : 'none';
 }
+
+document.getElementById('descargarPDF').addEventListener('click', () => {
+    const doc = new jspdf.jsPDF();
+
+    // Agregar título
+    doc.text('Resumen del Cotizador de Cajas de Vino', 10, 10);
+
+    // Obtener datos de la tabla
+    const tabla = document.querySelector('#resultadoFinal table');
+    const data = [];
+    const headers = [];
+
+    // Extraer encabezados
+    tabla.querySelectorAll('thead th').forEach(th => {
+        headers.push(th.innerText);
+    });
+
+    // Extraer datos de las filas
+    tabla.querySelectorAll('tbody tr').forEach(tr => {
+        const fila = [];
+        tr.querySelectorAll('td').forEach(td => {
+            fila.push(td.innerText);
+        });
+        data.push(fila);
+    });
+
+    // Agregar tabla al PDF
+    doc.autoTable({
+        head: [headers],
+        body: data,
+        startY: 20
+    });
+
+    // Descargar el PDF
+    doc.save('Resumen_Cotizacion.pdf');
+});
