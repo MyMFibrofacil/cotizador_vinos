@@ -308,14 +308,6 @@ function generarPestanas(cantidad) {
     botonCalcular.onclick = () => calcularPrecioTotal(cantidad);
     contenedorPestanas.appendChild(botonCalcular);
 
-    // Botón para descargar PDF
-    const botonPDF = document.createElement('button');
-    botonPDF.textContent = 'Descargar Resumen en PDF';
-    botonPDF.id = 'descargarPDF';
-    botonPDF.style.marginTop = '10px';
-    botonPDF.style.display = 'none'; // Oculto inicialmente
-    contenedorPestanas.appendChild(botonPDF);
-
     // Contenedor para mostrar el resultado final
     const resultadoFinal = document.createElement('div');
     resultadoFinal.id = 'resultadoFinal';
@@ -329,38 +321,3 @@ function togglePestana(index) {
     contenido.style.display = contenido.style.display === 'none' ? 'block' : 'none';
 }
 
-document.getElementById('descargarPDF').addEventListener('click', () => {
-    const doc = new jspdf.jsPDF();
-
-    // Agregar título
-    doc.text('Resumen del Cotizador de Cajas de Vino', 10, 10);
-
-    // Obtener datos de la tabla
-    const tabla = document.querySelector('#resultadoFinal table');
-    const data = [];
-    const headers = [];
-
-    // Extraer encabezados
-    tabla.querySelectorAll('thead th').forEach(th => {
-        headers.push(th.innerText);
-    });
-
-    // Extraer datos de las filas
-    tabla.querySelectorAll('tbody tr').forEach(tr => {
-        const fila = [];
-        tr.querySelectorAll('td').forEach(td => {
-            fila.push(td.innerText);
-        });
-        data.push(fila);
-    });
-
-    // Agregar tabla al PDF
-    doc.autoTable({
-        head: [headers],
-        body: data,
-        startY: 20
-    });
-
-    // Descargar el PDF
-    doc.save('Resumen_Cotizacion.pdf');
-});
