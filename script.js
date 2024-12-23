@@ -226,7 +226,7 @@ function calcularPrecioTotal(cantidadPestanas) {
 
     // Mostrar el desglose de precios
     document.getElementById('resultadoFinal').innerHTML = `
-    <table class="styled-table">
+    <table>
         <thead>
             <tr>
                 <th>Concepto</th>
@@ -241,14 +241,12 @@ function calcularPrecioTotal(cantidadPestanas) {
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4" style="text-align: right; padding-top: 10px; font-size: 16px; font-weight: bold;">Total</td>
-                <td style="text-align: right; padding-top: 10px; font-size: 20px; font-weight: bold; color: #333;">$${precioTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })} +IVA</td>
+                <td colspan="4" style="text-align: right; padding-top: 10px;">Total</td>
+                <td class="total-cell" style="padding-top: 10px;">$${precioTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })} +IVA</td>
             </tr>
         </tfoot>
     </table>`;
-
-
-
+    
     // Llamar a la función para generar sugerencias
     generarSugerenciasPrecios(logosAgrupados);
 }
