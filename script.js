@@ -326,7 +326,8 @@ function generarPestanas(cantidad) {
     resultadoFinal.id = 'resultadoFinal';
     resultadoFinal.className = 'result';
     contenedorPestanas.appendChild(resultadoFinal);
-    }
+}
+
 // Función para alternar la visibilidad de las pestañas
 function togglePestana(index) {
     const contenido = document.getElementById(`contenido-${index}`);
