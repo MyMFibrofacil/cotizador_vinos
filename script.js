@@ -221,8 +221,7 @@ function calcularPrecioTotal(cantidadPestanas) {
     }
 
     const precioTotal = totalCajas + totalLogos;
-    document.getElementById('descargarPDF').style.display = 'block';
-    
+
     // Mostrar el desglose de precios
     document.getElementById('resultadoFinal').innerHTML = ` 
     <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
