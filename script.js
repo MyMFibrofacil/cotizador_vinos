@@ -17,38 +17,24 @@ const opcionesCajas = {
     ]
 };
 
-// Define el precio base por mm² del logo
-const Precio_Logo = 0.3540 * 1.1
+const Precio_Logo = 0.3540 * 1.1; // Precio base por mm² del logo
 
-// Los precios de las cajas se definen en la linea de codigo 131, buscar Ctrl + F = precioCajaUnitario y lo encontras para cambiar
-
-// Función para actualizar las opciones del tipo de caja según el tipo de material
 function actualizarOpcionesCajas(index) {
     const tipoMaterial = document.getElementById(`tipoMaterial-${index}`).value;
     const tipoCaja = document.getElementById(`tipoCaja-${index}`);
-
-    // Limpiar opciones actuales
     tipoCaja.innerHTML = '<option value="" disabled selected>Selecciona un tipo de caja</option>';
-
-    // Agregar las nuevas opciones según el material
     if (opcionesCajas[tipoMaterial]) {
         opcionesCajas[tipoMaterial].forEach(opcion => {
-            const nuevaOpcion = document.createElement('option');
-            nuevaOpcion.value = opcion.value;
-            nuevaOpcion.textContent = opcion.label;
-            tipoCaja.appendChild(nuevaOpcion);
+            tipoCaja.appendChild(new Option(opcion.label, opcion.value));
         });
     }
 }
 
-// Función para mostrar u ocultar los campos de medidas del logo
 function toggleLogoFields(index) {
     const conLogo = document.getElementById(`conLogo-${index}`).value;
-    const logoFields = document.getElementById(`logoFields-${index}`);
-    logoFields.style.display = conLogo === 'si' ? 'block' : 'none';
+    document.getElementById(`logoFields-${index}`).style.display = conLogo === 'si' ? 'block' : 'none';
 }
 
-// Agregar sugerencias para la siguiente escala de precios
 function generarSugerenciasPrecios(logosAgrupados) {
     const escalas = [
         { limite: 1, factor: 1.6 },
@@ -62,54 +48,21 @@ function generarSugerenciasPrecios(logosAgrupados) {
     ];
 
     const medidas = Object.keys(logosAgrupados);
-
-    // Sumar todas las cantidades agrupadas para calcular la escala total
     const cantidadTotalLogos = medidas.reduce((total, medida) => total + logosAgrupados[medida].cantidad, 0);
-
     let mensaje = '';
 
     if (medidas.length === 1) {
-        // Si todas las medidas son iguales, sumar las cantidades y calcular la escala
-        for (let i = 0; i < escalas.length; i++) {
-            if (cantidadTotalLogos <= escalas[i].limite) {
-                // Avanzar al siguiente nivel de escala
-                const siguienteEscala = escalas[i + 1]; // Cambio aquí
-                if (siguienteEscala) {
-                    const nuevaCantidad = escalas.limite + 1; // Cantidad mínima para la siguiente escala
-                    const nuevoPrecioLogoUnitario = (logosAgrupados[medidas[0]].areaLogo * Precio_Logo) * siguienteEscala.factor; // Corrección aquí
-                    const nuevoPrecioTotal = nuevoPrecioLogoUnitario * nuevaCantidad;
-
-                    mensaje = `
-                        Si pides más de ${escalas[i].limite} logos, 
-                        el precio por logo será de 
-                        <strong>$${nuevoPrecioLogoUnitario.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</strong> 
-                        `;
-                }
-                break;
-            }
+        const siguienteEscala = escalas.find(escala => cantidadTotalLogos < escala.limite);
+        if (siguienteEscala) {
+            mensaje = `Si pides más de ${cantidadTotalLogos} logos, obtendrás un mejor precio.`;
         }
     } else {
-        // Si hay medidas distintas, sugerir igualar medidas para mejor precio
-        mensaje = `
-            Tienes logos con diferentes medidas. 
-            Si unificas todas las medidas a <strong>${medidas[0]}</strong>, podrías obtener un mejor precio.
-        `;
+        mensaje = 'Unifica todas las medidas para obtener un mejor precio.';
     }
 
-    if (!mensaje) {
-        mensaje = 'Has alcanzado la escala más baja de precios.';
-    }
-
-    // Mostrar el mensaje en el contenedor
-    document.getElementById('sugerenciaEscalas').innerHTML = `
-        <p style="font-size: 14px; color: #555; margin-top: 10px;">
-            ${mensaje}
-        </p>
-    `;
+    document.getElementById('sugerenciaEscalas').innerHTML = `<p>${mensaje}</p>`;
 }
 
-
-// Actualización de la función calcularPrecioTotal para incluir la sugerencia
 function calcularPrecioTotal(cantidadPestanas) {
     let totalCajas = 0;
     let totalLogos = 0;
@@ -123,246 +76,127 @@ function calcularPrecioTotal(cantidadPestanas) {
         const conLogo = document.getElementById(`conLogo-${i}`).value === 'si';
 
         if (!tipoMaterial || !tipoCaja || !cantidad || (conLogo && (!document.getElementById(`altoLogo-${i}`).value || !document.getElementById(`anchoLogo-${i}`).value))) {
-            alert('Por favor, completa todos los campos en la pestaña Medida ' + i);
+            alert(`Completa todos los campos en la pestaña Medida ${i}`);
             return;
         }
 
-        // Precios base de las cajas
-        let precioCajaUnitario = 0;
-        switch (tipoCaja) {
-            case 'simple': precioCajaUnitario = 3927; break;
-            case 'simple_calada': precioCajaUnitario = 4485; break;
-            case 'doble': precioCajaUnitario = 6830; break;
-            case 'triple': precioCajaUnitario = 9280; break;
-            case 'cuadruple': precioCajaUnitario = 11590; break;
-            case 'sextuple': precioCajaUnitario = 17383; break;
-            case 'gin': precioCajaUnitario = 8640; break;
-            case 'magnum_x3L': precioCajaUnitario = 9350; break;
-            case 'magnum': precioCajaUnitario = 6485; break;
-            default:
-                alert('El tipo de caja seleccionado no es válido en la pestaña Medida ' + i);
-                return;
-        }
-
-        let precioCajaTotal = precioCajaUnitario * cantidad;
-        if (cantidad > 50) {
-            precioCajaTotal *= 0.9; // 10% de descuento
-        }
+        const preciosBase = {
+            simple: 3927,
+            simple_calada: 4485,
+            doble: 6830,
+            triple: 9280,
+            cuadruple: 11590,
+            sextuple: 17383,
+            gin: 8640,
+            magnum_x3L: 9350,
+            magnum: 6485
+        };
+        const precioCajaUnitario = preciosBase[tipoCaja] || 0;
+        const precioCajaTotal = precioCajaUnitario * cantidad * (cantidad > 50 ? 0.9 : 1);
         totalCajas += precioCajaTotal;
 
-        // Manejo de los logos
         if (conLogo) {
             const altoLogo = parseFloat(document.getElementById(`altoLogo-${i}`).value);
             const anchoLogo = parseFloat(document.getElementById(`anchoLogo-${i}`).value);
             const areaLogo = Math.max(altoLogo * anchoLogo, 2700);
             const medidaLogo = `${altoLogo}x${anchoLogo}`;
-
-            if (!logosAgrupados[medidaLogo]) {
-                logosAgrupados[medidaLogo] = { areaLogo, cantidad: 0 };
-            }
+            if (!logosAgrupados[medidaLogo]) logosAgrupados[medidaLogo] = { areaLogo, cantidad: 0 };
             logosAgrupados[medidaLogo].cantidad += cantidad;
         }
 
-        // Agregar detalle de precios para cajas
         detallePrecios += `
-        <tr>
-            <td style="text-align: center;">Caja ${tipoCaja.charAt(0).toUpperCase() + tipoCaja.slice(1).replace('_', ' ')}</td>
-            <td style="text-align: center;">${tipoMaterial.charAt(0).toUpperCase() + tipoMaterial.slice(1).replace('_', ' ')}</td>
-            <td style="text-align: center;">${cantidad}</td>
-            <td style="text-align: center;">$${precioCajaUnitario.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
-            <td style="text-align: right;">$${precioCajaTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
-        </tr>
-        `;
-        
-    
+            <tr>
+                <td>${tipoCaja.replace('_', ' ')}</td>
+                <td>${tipoMaterial.replace('_', ' ')}</td>
+                <td>${cantidad}</td>
+                <td>$${precioCajaUnitario.toLocaleString()}</td>
+                <td>$${precioCajaTotal.toLocaleString()}</td>
+            </tr>`;
     }
 
-    // Calcular precios de los logos agrupados
     for (const medida in logosAgrupados) {
         const { areaLogo, cantidad } = logosAgrupados[medida];
-        let precioLogoBase = areaLogo * Precio_Logo; // Precio del área base (mínimo 2700mm²)
-    
-        // Determinar el factor de escala según la cantidad agrupada
-        let factorEscala = 1;
-        if (cantidad === 1) {
-            factorEscala = 1.6;
-        } else if (cantidad >= 2 && cantidad <= 10) {
-            factorEscala = 1.3;
-        } else if (cantidad >= 11 && cantidad <= 20) {
-            factorEscala = 1.05;
-        } else if (cantidad >= 21 && cantidad <= 50) {
-            factorEscala = 1;
-        } else if (cantidad >= 51 && cantidad <= 100) {
-            factorEscala = 0.95;
-        } else if (cantidad >= 101 && cantidad <= 500) {
-            factorEscala = 0.9;
-        } else if (cantidad >= 501 && cantidad <= 1000) {
-            factorEscala = 0.85;
-        } else if (cantidad > 1001) {
-            factorEscala = 0.8;
-        }
-    
-        // Cálculo final del precio unitario y total para esta medida
-        const costoLogoUnitario = precioLogoBase * factorEscala;
+        const costoLogoUnitario = areaLogo * Precio_Logo * (cantidad > 10 ? 0.95 : 1);
         const totalLogoMedida = costoLogoUnitario * cantidad;
         totalLogos += totalLogoMedida;
-    
-        // Agregar los datos al desglose de precios
+
         detallePrecios += `
-        <tr>
-            <td style="text-align: center;">Logos ${medida}</td>
-            <td style="text-align: center;">N/A</td>
-            <td style="text-align: center;">${cantidad}</td>
-            <td style="text-align: center;">$${costoLogoUnitario.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
-            <td style="text-align: right;">$${totalLogoMedida.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
-        </tr>
-    `;
-    
-    
+            <tr>
+                <td>Logos ${medida}</td>
+                <td>N/A</td>
+                <td>${cantidad}</td>
+                <td>$${costoLogoUnitario.toLocaleString()}</td>
+                <td>$${totalLogoMedida.toLocaleString()}</td>
+            </tr>`;
     }
 
     const precioTotal = totalCajas + totalLogos;
 
-
-    // Mostrar el desglose de precios
     document.getElementById('resultadoFinal').innerHTML = `
-    <table>
-        <thead>
-            <tr>
-                <th>Concepto</th>
-                <th>Tipo de Tapa</th>
-                <th>Cantidad</th>
-                <th>Unitario</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            ${detallePrecios}
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="4" style="text-align: right; padding-top: 14px;">Total</td>
-                <td class="total-cell" style="padding-top: 14px;">$${precioTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })} +IVA</td>
-            </tr>
-        </tfoot>
-    </table>`;
-    
-    
-    // Llamar a la función para generar sugerencias
+        <table>
+            <thead>
+                <tr>
+                    <th>Concepto</th>
+                    <th>Material</th>
+                    <th>Cantidad</th>
+                    <th>Unitario</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>${detallePrecios}</tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">Total</td>
+                    <td class="total-cell">$${precioTotal.toLocaleString()} +IVA</td>
+                </tr>
+            </tfoot>
+        </table>`;
+    document.getElementById('exportarPDF').style.display = 'block';
     generarSugerenciasPrecios(logosAgrupados);
 }
 
-// Función para generar dinámicamente las pestañas según la cantidad seleccionada
 function generarPestanas(cantidad) {
     const contenedorPestanas = document.getElementById('contenedorPestanas');
-    contenedorPestanas.innerHTML = ''; // Limpia el contenedor
+    contenedorPestanas.innerHTML = '';
 
     for (let i = 1; i <= cantidad; i++) {
-        const pestana = document.createElement('div');
-        pestana.className = 'pestana';
-        pestana.innerHTML = `
-            <div style="padding: 10px; background-color: #f7f7f7; cursor: pointer;" onclick="togglePestana(${i})">
-                <strong>Medida ${i}</strong>
-            </div>
-            <div id="contenido-${i}" style="display: none; padding: 10px;">
+        const pestana = `
+            <div>
                 <form>
-                    <label for="tipoMaterial-${i}">Tipo de Material para la Tapa:</label>
-                    <select id="tipoMaterial-${i}" required onchange="actualizarOpcionesCajas(${i})">
-                        <option value="" disabled selected>Selecciona un material</option>
+                    <label>Material:</label>
+                    <select id="tipoMaterial-${i}" onchange="actualizarOpcionesCajas(${i})">
+                        <option value="" disabled selected>Selecciona</option>
                         <option value="acrilico">Acrílico</option>
                         <option value="enchapado_pino">Enchapado de Pino</option>
                     </select>
-
-                    <label for="tipoCaja-${i}">Tipo de Caja:</label>
-                    <select id="tipoCaja-${i}" required>
-                        <option value="" disabled selected>Selecciona un tipo de caja</option>
+                    <label>Caja:</label>
+                    <select id="tipoCaja-${i}"></select>
+                    <label>Cantidad:</label>
+                    <input id="cantidad-${i}" type="number">
+                    <label>Logo:</label>
+                    <select id="conLogo-${i}" onchange="toggleLogoFields(${i})">
+                        <option value="no">No</option>
+                        <option value="si">Sí</option>
                     </select>
-
-                    <label for="cantidad-${i}">Cantidad (unidades):</label>
-                    <input type="number" id="cantidad-${i}" min="1" required placeholder="Introduce la cantidad">
-
-                    <div>
-                        <label for="conLogo-${i}">¿Deseas incluir logo?</label>
-                        <select id="conLogo-${i}" onchange="toggleLogoFields(${i})">
-                            <option value="no" selected>No</option>
-                            <option value="si">Sí</option>
-                        </select>
-                    </div>
-
-                    <div id="logoFields-${i}" style="display: none;">
-                        <label for="altoLogo-${i}">Altura del Logo (mm):</label>
-                        <input type="number" id="altoLogo-${i}" min="1" placeholder="Introduce la altura del logo">
-
-                        <label for="anchoLogo-${i}">Ancho del Logo (mm):</label>
-                        <input type="number" id="anchoLogo-${i}" min="1" placeholder="Introduce el ancho del logo">
+                    <div id="logoFields-${i}" style="display:none;">
+                        <label>Alto:</label>
+                        <input id="altoLogo-${i}" type="number">
+                        <label>Ancho:</label>
+                        <input id="anchoLogo-${i}" type="number">
                     </div>
                 </form>
-            </div>
-        `;
-        contenedorPestanas.appendChild(pestana);
+            </div>`;
+        contenedorPestanas.innerHTML += pestana;
     }
 
-    // Botón para calcular precio
-    const botonCalcular = document.createElement('button');
-    botonCalcular.textContent = 'Calcular Precio Total';
-    botonCalcular.style.marginTop = '20px';
-    botonCalcular.onclick = () => calcularPrecioTotal(cantidad);
-    contenedorPestanas.appendChild(botonCalcular);
-
-    // Botón para exportar PDF
-    const botonExportarPDF = document.createElement('button');
-    botonExportarPDF.textContent = 'Exportar a PDF';
-    botonExportarPDF.id = 'exportarPDF';
-    botonExportarPDF.style.marginTop = '10px';
-    botonExportarPDF.style.display = 'none'; // Oculto inicialmente
-    botonExportarPDF.onclick = exportarPDF;
-    contenedorPestanas.appendChild(botonExportarPDF);
-
-    // Contenedor para mostrar el resultado final
-    const resultadoFinal = document.createElement('div');
-    resultadoFinal.id = 'resultadoFinal';
-    resultadoFinal.className = 'result';
-    contenedorPestanas.appendChild(resultadoFinal);
-}
-
-// Función para alternar la visibilidad de las pestañas
-function togglePestana(index) {
-    const contenido = document.getElementById(`contenido-${index}`);
-    contenido.style.display = contenido.style.display === 'none' ? 'block' : 'none';
+    contenedorPestanas.innerHTML += `
+        <button onclick="calcularPrecioTotal(${cantidad})">Calcular Precio</button>
+        <button id="exportarPDF" style="display:none;" onclick="exportarPDF()">Exportar PDF</button>`;
 }
 
 function exportarPDF() {
     const doc = new jspdf.jsPDF();
-
-    // Agregar título
-    doc.text('Resumen del Cotizador de Cajas de Vino', 10, 10);
-
-    // Obtener datos de la tabla
     const tabla = document.querySelector('#resultadoFinal table');
-    const data = [];
-    const headers = [];
-
-    // Extraer encabezados
-    tabla.querySelectorAll('thead th').forEach(th => {
-        headers.push(th.innerText);
-    });
-
-    // Extraer datos de las filas
-    tabla.querySelectorAll('tbody tr').forEach(tr => {
-        const fila = [];
-        tr.querySelectorAll('td').forEach(td => {
-            fila.push(td.innerText);
-        });
-        data.push(fila);
-    });
-
-    // Agregar tabla al PDF
-    doc.autoTable({
-        head: [headers],
-        body: data,
-        startY: 20
-    });
-
-    // Descargar el PDF
-    doc.save('Resumen_Cotizacion.pdf');
+    doc.autoTable({ html: tabla });
+    doc.save('Cotizacion.pdf');
 }
