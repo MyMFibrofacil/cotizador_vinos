@@ -72,16 +72,20 @@ tfoot td.total-cell {
 
 /* Estilo especial para el monto total en el pie de tabla */
 tfoot td.total-cell {
-    font-size: 25px; /* Tamaño más grande para el monto total */
+    font-size: 20px; /* Tamaño más grande para el monto total */
     font-weight: bold;
     color: #333;
     text-align: right; /* Alinear a la derecha */
 }
 
 /* Resaltar filas alternas */
+tbody tr {
+    font-size: 14px; /* Tamaño uniforme para todas las filas */
+    background-color: #fff; /* Fondo blanco para las filas por defecto */
+}
+
 tbody tr:nth-child(even) {
-    font-size: 12px; /* Ajusta el tamaño según lo que desees */
-    background-color: #f9f9f9;
+    background-color: #f9f9f9; /* Mantener el fondo alternado */
 }
 
 /* Resaltar filas al pasar el mouse */
