@@ -80,7 +80,7 @@ tbody tr:hover {
 
 /* Estilo para el pie de tabla */
 tfoot td {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     border-top: 2px solid #000;
     text-align: right;
