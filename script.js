@@ -224,27 +224,28 @@ function calcularPrecioTotal(cantidadPestanas) {
     const precioTotal = totalCajas + totalLogos;
 
     // Mostrar el desglose de precios
-    document.getElementById('resultadoFinal').innerHTML = ` 
-    <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+    document.getElementById('resultadoFinal').innerHTML = `
+    <table>
         <thead>
-            <tr style="border-bottom: 2px solid #000; font-weight: bold; text-align: center;">
-                <th style="width: 25%; text-align: center;">Concepto</th>
-                <th style="width: 20%; text-align: center;">Tipo de Tapa</th>
-                <th style="width: 15%; text-align: center;">Cantidad</th>
-                <th style="width: 20%; text-align: center;">Unitario</th>
-                <th style="width: 20%; text-align: right;">Total</th>
+            <tr>
+                <th>Concepto</th>
+                <th>Tipo de Tapa</th>
+                <th>Cantidad</th>
+                <th>Unitario</th>
+                <th>Total</th>
             </tr>
         </thead>
         <tbody>
             ${detallePrecios}
         </tbody>
         <tfoot>
-            <tr style="font-size: 18px; font-weight: bold; border-top: 2px solid #000;">
+            <tr>
                 <td colspan="4" style="text-align: right; padding-top: 10px;">Total</td>
                 <td style="text-align: right; padding-top: 10px;">$${precioTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })} +IVA</td>
             </tr>
         </tfoot>
     </table>`;
+
 
 
 
