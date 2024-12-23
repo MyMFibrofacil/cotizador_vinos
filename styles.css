@@ -64,7 +64,7 @@ th {
 }
 
 tfoot td {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: bold;
     border-top: 2px solid #000; /* Línea superior gruesa */
     text-align: right; /* Alinear texto a la derecha */
